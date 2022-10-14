@@ -1,6 +1,6 @@
 from rest_framework.generics import (
-    CreateAPIView,
     ListAPIView,
+    ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -17,17 +17,21 @@ class BookListView(ListAPIView):
     permission_classes = []
 
 
-class CreateBookView(CreateAPIView):
+class CreateBookView(ListCreateAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all().select_related()
     parser_classes = [MultiPartParser, FormParser]
+
+    def get_queryset(self):
+        return self.queryset.filter(author=self.request.user).select_related()
 
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user)
 
 
-class BookIDView(RetrieveUpdateDestroyAPIView):
+class BookView(RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all().select_related()
     permission_classes = [IsAuthenticated, IsAuthor]
     parser_classes = [MultiPartParser, FormParser]
+    lookup_field = "id"
