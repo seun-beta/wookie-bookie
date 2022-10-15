@@ -11,7 +11,7 @@ class TestRegisterUserAPIView(BaseTest):
     def test_register_user_with_valid_data(self):
         """Test registering user with valid data"""
 
-        extra_data = {"password2": "wookie"}
+        extra_data = {"password2": "wookie1234"}
         self.user_attr.update(extra_data)
         response = self.client.post(reverse("register"), self.user_attr)
 
@@ -34,14 +34,14 @@ class TestRegisterUserAPIView(BaseTest):
         response = self.client.post(reverse("register"), self.user_attr)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    # def test_register_user_with_invalid_password(self):
-    #     """Test registering users with invalid password"""
+    def test_register_user_with_invalid_password(self):
+        """Test registering users with invalid password"""
 
-    #     extra_data = {"password2": "1ez212322123"}
-    #     self.user_attr["password"] = "1ez212322123"
-    #     self.user_attr.update(extra_data)
-    #     response = self.client.post(reverse("register"), self.user_attr)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        extra_data = {"password2": "1ez21233"}
+        self.user_attr["password"] = "1ez21232"
+        self.user_attr.update(extra_data)
+        response = self.client.post(reverse("register"), self.user_attr)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class TestLoginAPIView(BaseTest):

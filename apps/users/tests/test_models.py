@@ -35,18 +35,6 @@ class TestCustomUserModel(BaseTest):
         user = self.user.objects.create_user(**self.user_attr)
         self.assertEqual(user.__str__(), self.user_attr["username"])
 
-    # def test_user_tokens_are_returned_on_user_creation(self):
-    #     """Test access and refresh tokens returned on user creation"""
-
-    #     user = self.user.objects.create_user(**self.user_attr)
-    #     self.assertIn("access", user.tokens())
-
-    # def test_email_not_verified_after_user_creation(self):
-    #     """Test user email is not verified at creation"""
-
-    #     user = self.user.objects.create_user(**self.user_attr)
-    #     self.assertFalse(user.is_verified, False)
-
     def test_user_is_not_staff_or_superuser(self):
         """Test user is not staff or superuser at creation"""
 
