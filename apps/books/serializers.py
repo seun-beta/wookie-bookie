@@ -16,10 +16,10 @@ class BookListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        exclude = ["created_at", "updated_at"]
+        exclude = ["created_at", "updated_at", "author", "pkid"]
 
-    def get_author_name(self):
-        return self.author.get_full_name
+    def get_author_name(self, attrs):
+        return attrs.author.get_full_name
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -47,3 +47,25 @@ class BookSerializer(serializers.ModelSerializer):
             id=book.id,
         )
         return book
+
+    def update(self, instance, validated_data):
+        # breakpoint()
+        cover_image = validated_data.get("cover_image")
+
+        if cover_image:
+            cover_image = validated_data.pop("cover_image")
+            storage = FileSystemStorage()
+            cover_image.name = storage.get_available_name(cover_image.name)
+            storage.save(cover_image.name, File(cover_image))
+
+            upload_cover_image_task.delay(
+                path=storage.path(cover_image.name),
+                file_name=cover_image.name,
+                id=instance.id,
+            )
+        instance.title = validated_data.pop("title", instance.title)
+        instance.description = validated_data.pop("description", instance.description)
+        instance.price = validated_data.pop("price", instance.price)
+        instance.save()
+
+        return instance

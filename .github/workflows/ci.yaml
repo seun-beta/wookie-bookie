@@ -1,4 +1,4 @@
-name: Fin-24 Backend CI
+name: Wookie Bookie CI
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9]
+        python-version: ["3.10"]
 
     services:
       postgres:
