@@ -8,7 +8,7 @@ DEBUG = env.bool("DEBUG", default="False")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-ADMIN_URL = env.str("DJANGO_ADMIN_URL", default="admin")
+ADMIN_URL = env.str("ADMIN_URL", default="admin")
 
 DATABASES = {
     "default": env.db("DATABASE_URL"),
