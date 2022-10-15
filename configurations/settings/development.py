@@ -8,21 +8,27 @@ DEBUG = env.bool("DEBUG", default="False")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+ADMIN_URL = env.str("DJANGO_ADMIN_URL", default="admin")
+
 DATABASES = {
     "default": env.db("DATABASE_URL"),
 }
 
-# INSTALLED_APPS += [
-#     "debug_toolbar",
-# ]
+INSTALLED_APPS += [
+    "debug_toolbar",
+]
 
-# MIDDLEWARE += [
-#     "debug_toolbar.middleware.DebugToolbarMiddleware",
-# ]
+MIDDLEWARE += [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
 
-# DEBUG_TOOLBAR_CONFIG = {
-#     "JQUERY_URL": "",
-# }
+DEBUG_TOOLBAR_CONFIG = {
+    "JQUERY_URL": "",
+}
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 LOGGING = {
     "version": 1,
