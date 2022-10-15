@@ -18,7 +18,7 @@ class BookListSerializer(serializers.ModelSerializer):
         model = Book
         exclude = ["created_at", "updated_at", "author", "pkid"]
 
-    def get_author_name(self, attrs):
+    def get_author_name(self, attrs: Book) -> str:
         return attrs.author.get_full_name
 
 
@@ -33,7 +33,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         exclude = ["created_at", "updated_at", "author"]
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
 
         cover_image = validated_data.pop("cover_image")
         storage = FileSystemStorage()
@@ -48,8 +48,7 @@ class BookSerializer(serializers.ModelSerializer):
         )
         return book
 
-    def update(self, instance, validated_data):
-        # breakpoint()
+    def update(self, instance: Book, validated_data: dict):
         cover_image = validated_data.get("cover_image")
 
         if cover_image:
