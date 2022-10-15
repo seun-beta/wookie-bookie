@@ -20,6 +20,7 @@ Wookie Bookie
 ```bash
 
 .
+.
 ├── Dockerfile
 ├── LICENSE
 ├── README.md
@@ -29,27 +30,47 @@ Wookie Bookie
 │   │   ├── admin.py
 │   │   ├── apps.py
 │   │   ├── migrations
+│   │   │   ├── 0001_initial.py
 │   │   │   └── __init__.py
 │   │   ├── models.py
-│   │   ├── tests.py
+│   │   ├── serializers.py
+│   │   ├── tasks.py
+│   │   ├── tests
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── test_image.png
+│   │   │   ├── test_models.py
+│   │   │   └── test_views.py
+│   │   ├── urls.py
 │   │   └── views.py
-│   └── users
-│       ├── __init__.py
-│       ├── admin.py
-│       ├── apps.py
-│       ├── forms.py
-│       ├── managers.py
-│       ├── migrations
-│       │   ├── 0001_initial.py
-│       │   └── __init__.py
-│       ├── models.py
-│       ├── serializers.py
-│       ├── tests.py
-│       ├── urls.py
-│       └── views.py
+│   ├── users
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── managers.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── 0002_alter_user_author_pseudonym.py
+│   │   │   └── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── test_models.py
+│   │   │   └── test_views.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   └── utility
+│       ├── base_model.py
+│       ├── filters.py
+│       ├── pagination.py
+│       └── permissions.py
 ├── configurations
 │   ├── __init__.py
 │   ├── asgi.py
+│   ├── celery.py
 │   ├── settings
 │   │   ├── base.py
 │   │   ├── development.py
@@ -62,12 +83,10 @@ Wookie Bookie
 │   └── debug.log
 ├── makefile
 ├── manage.py
-├── pyproject.toml
 ├── requirements
 │   ├── base.txt
 │   ├── development.txt
 │   └── production.txt
-├── runtime.txt
 └── setup.cfg
 
 ```
@@ -91,8 +110,8 @@ These instructions will get you a copy of the project up and running on your loc
 Now, make sure to have 3 extra terminals/command prompts for the following commands:
 1) To run the redis server: `redis-server`
 2) Start the app with `python manage.py runserver`
-3) To run celery: `python -m celery -A core worker`
-4) To run flower: `celery -A core flower`
+3) To run celery: `python -m celery -A configurations worker`
+4) To run flower: `celery -A configurations flower`
 
 
 ## Author <a name = "author"></a>
