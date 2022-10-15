@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from djmoney.money import Money
 from faker import Faker
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APITestCase
 
 from apps.books.models import Book
 
@@ -13,7 +13,6 @@ class BaseTest(APITestCase):
     """Base class for tests"""
 
     user = get_user_model()
-    client = APIClient()
 
     def setUp(self):
         """Run before every test case"""
@@ -34,7 +33,7 @@ class BaseTest(APITestCase):
         self.book_with_image_attr = {
             "title": faker.sentence(),
             "description": faker.sentence(),
-            "price": Money(1234, "USD"),
+            "price": 1234,
         }
         self.author_name_attr = {"author_name": "Wookie Ewok"}
 
