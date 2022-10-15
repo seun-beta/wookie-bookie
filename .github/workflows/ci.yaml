@@ -48,6 +48,6 @@ jobs:
       - name: Run Tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          ENVIRONMENT: ${{ secrets.SETTINGS_FILE }}
         run: |
           python manage.py test apps/
