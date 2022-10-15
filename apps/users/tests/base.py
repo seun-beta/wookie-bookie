@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
+from faker import Faker
 from rest_framework.test import APIClient
+
+faker = Faker()
 
 
 class BaseTest(TestCase):
@@ -9,23 +12,16 @@ class BaseTest(TestCase):
 
     user = get_user_model()
     client = APIClient()
-    user_attr = user_attr = {
-        "username": "wookie",
-        "first_name": "wookie",
-        "last_name": "ewok",
-        "author_pseudonym": "ewookie",
-        "password": "wookie",
-    }
 
     def setUp(self):
         """Run before every test case"""
 
         self.user_attr = {
-            "username": "wookie",
-            "first_name": "wookie",
-            "last_name": "ewok",
-            "author_pseudonym": "ewookie",
-            "password": "wookie",
+            "username": faker.first_name(),
+            "first_name": faker.first_name(),
+            "last_name": faker.last_name(),
+            "author_pseudonym": faker.first_name(),
+            "password": "wookie1234",
         }
 
     def tearDown(self):
