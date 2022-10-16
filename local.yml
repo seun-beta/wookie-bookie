@@ -1,0 +1,67 @@
+version: "3"
+services:
+
+  db:
+    image: postgres:14
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    networks:
+      - wookie-bookie
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      JWT_SIGNING_KEY: "WDFGTR43WSDFRE"
+      ACCESS_TOKEN_LIFETIME: 10
+      REFRESH_TOKEN_LIFETIME: 100
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      CLOUDINARY_CLOUD_NAME: testing
+      CLOUDINARY_API_KEY: testing
+      CLOUDINARY_API_SECRET: testing
+      SECRET_KEY: asdfre3wqas
+      ADMIN_URL: admin
+      DEBUG: True
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+      SETTINGS_FILE: configurations.settings.development
+
+    depends_on:
+      - db
+    command: >
+      sh -c "python3 manage.py migrate &&
+            python3 manage.py runserver 0.0.0.0:8000"
+    networks:
+      - wookie-bookie
+
+  redis:
+    image: redis
+    networks:
+    - wookie-bookie
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: python -m celery -A configurations worker
+    environment:
+
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+      - api
+    networks:
+      - wookie-bookie
+
+networks:
+    wookie-bookie:
+        driver: bridge

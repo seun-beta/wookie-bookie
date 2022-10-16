@@ -34,6 +34,8 @@ class BookSerializer(serializers.ModelSerializer):
         exclude = ["created_at", "updated_at", "author"]
 
     def create(self, validated_data: dict):
+        if validated_data["author"].username == "Darth Vader":
+            raise serializers.ValidationError("Darth Vader!!!!!!")
 
         cover_image = validated_data.pop("cover_image")
         storage = FileSystemStorage()

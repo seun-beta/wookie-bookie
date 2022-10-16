@@ -1,18 +1,15 @@
-FROM python:3.11.0rc2-alpine3.16
+FROM python:3.10.2-slim-bullseye
 
 WORKDIR /app
 
-RUN apk add --no-cache jpeg-dev zlib-dev
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-RUN apk add --no-cache --virtual .build-deps build-base linux-headers postgresql-dev  \
-    && pip install Pillow && pip install psycopg2
+ENV PYTHONDONTWRITEBYTECODE 1
+
+ENV PYTHONUNBUFFERED 1
 
 COPY requirements/* ./app/requirements/
 
 RUN pip install -r ./app/requirements/development.txt
 
 COPY . .
-
-ENV ENVIRONMENT=config.settings.development
-
-ENTRYPOINT ["python", "manage.py", "runserver"]
