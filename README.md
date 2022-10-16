@@ -116,6 +116,9 @@ Now, make sure to have 4 terminals/command prompts for the following commands:
 2) Run  `make up` to run the images in seperate containers
 3) Run `make test` to run all tests in the multi-container environment
 
+### Swagger Documentation
+1) The Swagger documentation can be found here http://127.0.0.1:8000/swagger
+2) The Swagger documentation export can be found here http://127.0.0.1:8000/swagger.json  OR http://127.0.0.1:8000/swagger.yaml
 
 ## Author <a name = "author"></a>
 This software was created by Seunfunmi Adegoke, a Backend & Cloud Engineer
