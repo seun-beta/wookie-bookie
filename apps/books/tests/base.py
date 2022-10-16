@@ -27,13 +27,14 @@ class BaseTest(APITestCase):
             "title": faker.sentence(),
             "description": faker.sentence(),
             "cover_image": faker.url(),
-            "price": Money(1234, "USD"),
+            "price": Money(1234.00, "USD"),
         }
-
+        title = faker.sentence()
+        description = faker.sentence()
         self.book_with_image_attr = {
-            "title": faker.sentence(),
-            "description": faker.sentence(),
-            "price": 1234,
+            "title": title,
+            "description": description,
+            "price": "1234.00",
         }
         self.author_name_attr = {"author_name": "Wookie Ewok"}
 
