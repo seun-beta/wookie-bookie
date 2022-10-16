@@ -29,6 +29,9 @@ jobs:
       - name: Delete containers
         run: 		docker compose -f local.yml down
 
+      - name: Delete db container
+        run: 		docker rm -f wookie-bookie-db-1
+
       - name: Start containers
         run: 	docker compose -f local.yml up --build -d --remove-orphans
 
