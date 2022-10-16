@@ -18,9 +18,6 @@ Wookie Bookie
 
 
 ```bash
-
-.
-.
 ├── Dockerfile
 ├── LICENSE
 ├── README.md
@@ -74,11 +71,12 @@ Wookie Bookie
 │   ├── settings
 │   │   ├── base.py
 │   │   ├── development.py
-│   │   └── production.py
+│   │   ├── production.py
+│   │   └── test.py
 │   ├── swagger_scheme_generator.py
 │   ├── urls.py
 │   └── wsgi.py
-├── docker-compose.yml
+├── local.yml
 ├── logs
 │   └── debug.log
 ├── makefile
