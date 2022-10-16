@@ -104,12 +104,17 @@ These instructions will get you a copy of the project up and running on your loc
  - Run `pip install -r requirements/development.txt`
  - Run migration with `python manage.py migrate`.
 
-
-Now, make sure to have 3 extra terminals/command prompts for the following commands:
+### Run without docker compose
+Now, make sure to have 4 terminals/command prompts for the following commands:
 1) To run the redis server: `redis-server`
 2) Start the app with `python manage.py runserver`
 3) To run celery: `python -m celery -A configurations worker`
 4) To run flower: `celery -A configurations flower`
+
+### Run with docker compose
+1) Run `make build` to build all the container images
+2) Run  `make up` to run the images in seperate containers
+3) Run `make test` to run all tests in the multi-container environment
 
 
 ## Author <a name = "author"></a>
