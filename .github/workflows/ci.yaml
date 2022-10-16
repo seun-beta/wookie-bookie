@@ -40,6 +40,10 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
         with:
@@ -50,25 +54,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements/development.txt
+      - name: Start containers
+        run: docker compose -f local.yml up -d
 
-      - name: Run Tests
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          SETTINGS_FILE: ${{ secrets.SETTINGS_FILE }}
-          JWT_SIGNING_KEY: ${{ secrets.JWT_SIGNING_KEY }}
-          ACCESS_TOKEN_LIFETIME: ${{ secrets.ACCESS_TOKEN_LIFETIME }}
-          REFRESH_TOKEN_LIFETIME: ${{ secrets.REFRESH_TOKEN_LIFETIME }}
-          CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
-          CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
-          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
-          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
-          ADMIN_URL: ${{ secrets.ADMIN_URL }}
-          DEBUG: ${{ secrets.DEBUG }}
-          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOST }}
-        run: |
-          python manage.py test apps/
+      - name: Run tests
+        run: docker compose -f local.yml run --rm api python3 manage.py test apps/
+
+      - name: Stop containers
+        if: always()
+        run: docker compose -f local.yml down
+
