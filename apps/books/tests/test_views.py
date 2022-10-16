@@ -24,9 +24,10 @@ class TestBookListView(BaseTest):
             response.data["results"][0]["description"],
             self.book_attr["description"],
         )
+        image_url = "image/upload/" + self.book_attr["cover_image"]
         self.assertEqual(
             response.data["results"][0]["cover_image"],
-            self.book_attr["cover_image"],
+            image_url,
         )
         self.assertEqual(
             Money(response.data["results"][0]["price"], "USD"),
@@ -116,7 +117,7 @@ class TestPatchBookView(BaseTest):
             response.data["description"],
             self.book_with_image_attr["description"],
         )
-        self.assertIsNone(response.data["cover_image"])
+        self.assertIsNotNone(response.data["cover_image"])
         self.assertEqual(
             response.data["price"],
             self.book_with_image_attr["price"],
@@ -166,7 +167,7 @@ class TestPutBookView(BaseTest):
             response.data["description"],
             self.book_with_image_attr["description"],
         )
-        self.assertIsNone(response.data["cover_image"])
+        self.assertIsNotNone(response.data["cover_image"])
         self.assertEqual(
             response.data["price"],
             self.book_with_image_attr["price"],

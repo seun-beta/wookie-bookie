@@ -105,11 +105,10 @@ These instructions will get you a copy of the project up and running on your loc
  - Run migration with `python manage.py migrate`.
 
 ### Run without docker compose
-Now, make sure to have 4 terminals/command prompts for the following commands:
+Now, make sure to have 3 terminals/command prompts for the following commands:
 1) To run the redis server: `redis-server`
 2) Start the app with `python manage.py runserver`
 3) To run celery: `python -m celery -A configurations worker`
-4) To run flower: `celery -A configurations flower`
 5) To run tests: `python manage.py test apps/`
 
 ### Run with docker compose

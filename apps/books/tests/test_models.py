@@ -12,6 +12,9 @@ class TestBookModel(BaseTest):
         book_obj = Book.objects.get(pkid=book.pkid)
         self.assertEqual(book_obj.title, book.title)
         self.assertEqual(book_obj.description, book.description)
-        self.assertEqual(book_obj.cover_image, book.cover_image)
+        image_url = (
+            "http://res.cloudinary.com/codepiercer/image/upload/" + book.cover_image
+        )
+        self.assertEqual(book_obj.cover_image.url, image_url)
         self.assertEqual(book_obj.price, book.price)
         self.assertEqual(book_obj.author, book.author)

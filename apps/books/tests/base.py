@@ -26,7 +26,7 @@ class BaseTest(APITestCase):
         self.book_attr = {
             "title": faker.sentence(),
             "description": faker.sentence(),
-            "cover_image": faker.url(),
+            "cover_image": "cover_image_url",
             "price": Money(1234.00, "USD"),
         }
         title = faker.sentence()

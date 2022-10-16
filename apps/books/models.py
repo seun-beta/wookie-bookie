@@ -1,5 +1,6 @@
 from django.db import models
 
+from cloudinary.models import CloudinaryField
 from djmoney.models.fields import MoneyField
 
 from apps.users.models import User
@@ -9,7 +10,7 @@ from apps.utility.base_model import TimeStampedUUIDModel
 class Book(TimeStampedUUIDModel):
     title = models.CharField(max_length=512)
     description = models.TextField()
-    cover_image = models.URLField(null=True, blank=True)
+    cover_image = CloudinaryField(null=True, blank=True)
     price = MoneyField(
         decimal_places=2,
         default=0,
