@@ -110,6 +110,7 @@ Now, make sure to have 4 terminals/command prompts for the following commands:
 2) Start the app with `python manage.py runserver`
 3) To run celery: `python -m celery -A configurations worker`
 4) To run flower: `celery -A configurations flower`
+5) To run tests: `python manage.py test apps/`
 
 ### Run with docker compose
 1) Run `make build` to build all the container images
