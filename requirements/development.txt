@@ -4,6 +4,6 @@ coverage==6.4.4  # https://github.com/nedbat/coveragepy
 django-debug-toolbar==3.6.0 #https://github.com/jazzband/django-debug-toolbar
 
 flake8==5.0.4  # https://github.com/PyCQA/flake8
-flake8-isort==4.2.0  # https://github.com/gforcada/flake8-isort
+flake8-isort==6.0.0  # https://github.com/gforcada/flake8-isort
 pre-commit==2.19.0  # https://github.com/pre-commit/pre-commit
 pylint-django==2.5.3  # https://github.com/PyCQA/pylint-django
