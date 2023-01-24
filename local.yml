@@ -11,6 +11,11 @@ services:
       -  5432
     networks:
       - wookie-bookie
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
     build: .
@@ -18,23 +23,12 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      JWT_SIGNING_KEY: "WDFGTR43WSDFRE"
-      ACCESS_TOKEN_LIFETIME: 10
-      REFRESH_TOKEN_LIFETIME: 100
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
-      CLOUDINARY_CLOUD_NAME: testing
-      CLOUDINARY_API_KEY: testing
-      CLOUDINARY_API_SECRET: testing
-      SECRET_KEY: asdfre3wqas
-      ADMIN_URL: admin
-      DEBUG: True
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
-      SETTINGS_FILE: configurations.settings.development
+    env_file:
+      ./.env
 
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: >
       sh -c "python3 manage.py migrate &&
             python3 manage.py runserver 0.0.0.0:8000"
@@ -51,10 +45,8 @@ services:
     build:
       context: .
     command: python -m celery -A configurations worker
-    environment:
-
-      CELERY_BROKER_URL: redis://redis:6379/0
-      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    env_file:
+      ./.env
     depends_on:
       - db
       - redis
