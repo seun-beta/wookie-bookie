@@ -1,15 +1,44 @@
-FROM python:3.10.2-slim-bullseye
+ARG PYTHON_VERSION=3.9-slim-bullseye
 
-WORKDIR /app
+FROM python:${PYTHON_VERSION} as python
 
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+FROM python as python-build-stage
+ARG BUILD_ENVIRONMENT=development
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+   build-essential \
+   libpq-dev 
+
+COPY ./requirements .
+
+RUN pip wheel --wheel-dir /usr/src/app/wheels \
+   -r ${BUILD_ENVIRONMENT}.txt
+
+
+FROM python as python-run-stage
+
+ARG BUILD_ENVIRONMENT=development
+ARG APP_HOME=/app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements/* ./app/requirements/
+ENV BUILD_ENV ${BUILD_ENVIRONMENT}
 
-RUN pip install -r ./app/requirements/development.txt
+WORKDIR ${APP_HOME}
 
-COPY . .
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libpq-dev \
+    gettext \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY --from=python-build-stage /usr/src/app/wheels /wheels/
+
+RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
+   && rm -rf /wheels/
+
+
+COPY . ${APP_HOME}

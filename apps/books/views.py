@@ -16,7 +16,7 @@ from apps.utility.permissions import IsAuthor
 
 class BookListView(ListAPIView):
     serializer_class = BookListSerializer
-    queryset = Book.objects.all().select_related()
+    queryset = Book.objects.all().select_related("author")
     permission_classes = []
     pagination_class = BookPagination
     filter_backends = [DjangoFilterBackend]
@@ -36,7 +36,7 @@ class ListCreateBookView(ListCreateAPIView):
             # queryset just for schema generation metadata
             return Book.objects.none()
 
-        return self.queryset.filter(author=self.request.user).select_related()
+        return self.queryset.filter(author=self.request.user).select_related("author")
 
     def perform_create(self, serializer: dict) -> dict:
         return serializer.save(author=self.request.user)
@@ -44,7 +44,7 @@ class ListCreateBookView(ListCreateAPIView):
 
 class BookView(RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
-    queryset = Book.objects.all().select_related()
+    queryset = Book.objects.all().select_related("author")
     permission_classes = [IsAuthenticated, IsAuthor]
     parser_classes = [MultiPartParser, FormParser]
     lookup_field = "id"
