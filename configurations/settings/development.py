@@ -40,15 +40,14 @@ LOGGING = {
         }
     },
     "handlers": {
-        "file": {
+        "stream": {
             "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": "logs/debug.log",
+            "class": "logging.StreamHandler",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
+            "handlers": ["stream"],
             "level": "INFO",
             "propagate": True,
         },
