@@ -1,5 +1,5 @@
 -r base.txt
-black==22.8.0  # https://github.com/psf/black
+black==23.1.0  # https://github.com/psf/black
 coverage==6.4.4  # https://github.com/nedbat/coveragepy
 django-debug-toolbar==3.6.0 #https://github.com/jazzband/django-debug-toolbar
 
